@@ -1,16 +1,17 @@
-## Hi there 👋
+# Hi, I'm Ash 👋
 
-<!--
-**ashton212123/ashton212123** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
+Competitive swimmer (breaststroke / IM) based in the Philippines, training toward the ASEAN School Games and NCAA Philippines championships — and building software on the side.
 
-Here are some ideas to get you started:
+### What I'm building
+- 🏊 **Road to December** — a full-stack athlete dashboard (Next.js, TypeScript, Tailwind, Supabase) tracking training, nutrition, recovery, and race analytics for my own swim season.
+- 📊 **SplitIQ** — a swim analytics tool for breaking down race splits and performance data.
+- 🎮 **Sprout Tycoon** — a Roblox game I designed and built.
+- 🧴 **Parallel Notes** — an Arabian-inspired fragrance resale brand, with an AI-assisted ad generation pipeline for content and campaigns.
 
-- 🔭 I’m currently working on ...
-- 🌱 I’m currently learning ...
-- 👯 I’m looking to collaborate on ...
-- 🤔 I’m looking for help with ...
-- 💬 Ask me about ...
-- 📫 How to reach me: ...
-- 😄 Pronouns: ...
-- ⚡ Fun fact: ...
--->
+### Tech I use
+`TypeScript` `Next.js` `Tailwind CSS` `Supabase` `Drizzle ORM` `Python` `Claude Code`
+
+### Currently
+🎯 Training for major swim competitions in late 2026, while shipping small products and automations in whatever time is left.
+
+📫 Reach me here on GitHub, or check out my pinned repos below.

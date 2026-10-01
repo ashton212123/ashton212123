@@ -7,7 +7,7 @@ const fs = require("fs");
 const path = require("path");
 const crypto = require("crypto");
 const { pixelIcon } = require("./icons");
-const { GAME, COLORS: C, SECTORS, CORE, TAUNTS, RANKS } = require("./content");
+const { GAME, COLORS: C, SECTORS, CORE, TAUNTS, RANKS, TEAM } = require("./content");
 
 const A = (f) => path.join(__dirname, "assets", f);
 const OUT = process.argv[2] || path.join(__dirname, "out", GAME.pptFile);
@@ -187,10 +187,10 @@ function defineSlides() {
     txt(s, "Returns you to the slide you were on.", { x: 3.35, y: 6.35, w: 5, h: 0.62, fontFace: MONO, fontSize: 11, color: C.muted, valign: "middle" });
   });
 
-  def("credits", "Main Menu", "MENU", { notes: "CREDITS. Replace the [Member Name] placeholders with your group members. The documentation button opens the Word file, which must be saved in the same folder as this game." }, (s) => {
+  def("credits", "Main Menu", "MENU", { notes: "CREDITS. Shows the group members and their roles. The documentation button opens the Word file, which must be saved in the same folder as this game." }, (s) => {
     txt(s, "> CREDITS.TXT", { x: 0.5, y: 0.35, w: 4, h: 0.4, fontFace: MONO, fontSize: 14, bold: true, color: C.cyan });
     txt(s, "THE TEAM", { x: 0.5, y: 0.72, w: 8, h: 0.75, fontFace: HEAD, fontSize: 34 });
-    txt(s, "Group: [Group Name]   |   Grade & Section: [Grade & Section]", { x: 0.5, y: 1.45, w: 12, h: 0.4, fontFace: MONO, fontSize: 13, color: C.muted });
+    txt(s, `${TEAM.group.toUpperCase()}   |   ${TEAM.section}   |   Teacher: ${TEAM.teacher}`, { x: 0.5, y: 1.45, w: 12, h: 0.4, fontFace: MONO, fontSize: 13, bold: true, color: C.muted });
     const roles = [
       ["GAME DESIGNER", "FaPuzzlePiece", "2DE2E6", "Concept, mechanics, rules, and game flow"],
       ["STORY / CONTENT", "FaBookOpen", "FF7A45", "Backstory, characters, and questions"],
@@ -198,16 +198,17 @@ function defineSlides() {
       ["TESTER / DOCS", "FaClipboardCheck", "9BE564", "Playtesting and Word documentation"],
     ];
     roles.forEach(([role, icon, col, duty], i) => {
-      const x = 0.5 + i * 3.143, y = 2.1;
-      panel(s, x, y, 2.9, 2.95, { line: col, glow: col });
-      iconCircle(s, x + 0.97, y + 0.25, 0.95, ic(icon, col), col, { pad: 0.22 });
-      txt(s, role, { x: x + 0.1, y: y + 1.3, w: 2.7, h: 0.38, fontFace: HEAD, fontSize: 13, color: col, align: "center" });
-      txt(s, "[Member Name]", { x: x + 0.1, y: y + 1.7, w: 2.7, h: 0.42, fontSize: 18, bold: true, align: "center" });
-      txt(s, duty, { x: x + 0.25, y: y + 2.15, w: 2.4, h: 0.65, fontSize: 12, color: C.muted, align: "center" });
+      const x = 0.5 + i * 3.143, y = 2.0;
+      const names = TEAM.roles[i].names;
+      panel(s, x, y, 2.9, 3.2, { line: col, glow: col });
+      iconCircle(s, x + 0.97, y + 0.22, 0.95, ic(icon, col), col, { pad: 0.22 });
+      txt(s, role, { x: x + 0.1, y: y + 1.25, w: 2.7, h: 0.38, fontFace: HEAD, fontSize: 13, color: col, align: "center" });
+      txt(s, names.map((n, j) => ({ text: n, options: { breakLine: j < names.length - 1 } })), { x: x + 0.1, y: y + 1.68, w: 2.7, h: 0.72, fontSize: 15, bold: true, align: "center", valign: "middle" });
+      txt(s, duty, { x: x + 0.25, y: y + 2.5, w: 2.4, h: 0.6, fontSize: 12, color: C.muted, align: "center" });
     });
-    txt(s, "Made with Microsoft PowerPoint and Microsoft Word. The story, questions, pixel art, and sound effects are all original.", { x: 0.5, y: 5.3, w: 12.33, h: 0.4, fontSize: 14, color: C.muted, align: "center" });
-    button(s, { x: 0.5, y: 6.05, w: 5.6, h: 0.72, label: "OPEN GAME DOCUMENTATION", to: "DOC", kind: "secondary", size: 15, accent: C.amber });
-    button(s, { x: 10.03, y: 6.05, w: 2.8, h: 0.72, label: "MAIN MENU", to: "title", kind: "primary", size: 15 });
+    txt(s, "Made with Microsoft PowerPoint and Microsoft Word. The story, questions, pixel art, and sound effects are all original.", { x: 0.5, y: 5.4, w: 12.33, h: 0.4, fontSize: 14, color: C.muted, align: "center" });
+    button(s, { x: 0.5, y: 6.1, w: 5.6, h: 0.72, label: "OPEN GAME DOCUMENTATION", to: "DOC", kind: "secondary", size: 15, accent: C.amber });
+    button(s, { x: 10.03, y: 6.1, w: 2.8, h: 0.72, label: "MAIN MENU", to: "title", kind: "primary", size: 15 });
   });
 
   // ---------------- STORY
@@ -567,7 +568,7 @@ async function finalize(buf) {
   pres.layout = "LAYOUT_WIDE";
   pres.title = `${GAME.title}: ${GAME.subtitle}`;
   pres.subject = "Empowerment Technologies - GameCraft Performance Task";
-  pres.author = "[Group Name]";
+  pres.author = `${TEAM.group}, ${TEAM.section}`;
   pres.company = "Empowerment Technologies";
   for (const [m, bg] of [["MENU", "bg_menu.jpg"], ["S1", "bg_s1.jpg"], ["S2", "bg_s2.jpg"], ["S3", "bg_s3.jpg"], ["S4", "bg_s4.jpg"], ["CORE", "bg_core.jpg"]]) {
     pres.defineSlideMaster({ title: m, background: { path: A(bg) }, objects: [] });

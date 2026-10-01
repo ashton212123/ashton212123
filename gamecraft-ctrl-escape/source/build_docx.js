@@ -8,7 +8,7 @@ const {
   LevelFormat, VerticalAlign, SimpleField, PositionalTab, PositionalTabAlignment, PositionalTabRelativeTo,
   PositionalTabLeader, PageBreak, TabStopType,
 } = require("docx");
-const { GAME, SECTORS, CORE, RANKS } = require("./content");
+const { GAME, SECTORS, CORE, RANKS, TEAM } = require("./content");
 
 const A = (f) => path.join(__dirname, "assets", f);
 const OUT = process.argv[2] || path.join(__dirname, "out", GAME.docFile);
@@ -102,11 +102,11 @@ function callout(title, text, fill = "FFF6D6", edge = "E0A100") {
 // ------------------------------------------------------------- document content
 function cover() {
   const info = [
-    ["Group Name", "[Group Name]"],
-    ["Members", ["[Member Name] - Game Designer", "[Member Name] - Story / Content Designer", "[Member Name] - PowerPoint Developer", "[Member Name] - Tester / Documentation Lead"]],
-    ["Grade & Section", "[Grade & Section]"],
-    ["Subject Teacher", "[Teacher's Name]"],
-    ["Date Submitted", "[Date]"],
+    ["Group", TEAM.group],
+    ["Members", TEAM.roles.flatMap((r) => r.names.map((n) => `**${n}**  (${r.role})`))],
+    ["Grade & Section", TEAM.section],
+    ["Subject Teacher", TEAM.teacher],
+    ["Date Submitted", TEAM.date],
   ];
   return [
     new Paragraph({ spacing: { before: 200, after: 60 }, children: [new TextRun({ text: "EMPOWERMENT TECHNOLOGIES  |  PERFORMANCE TASK", bold: true, color: TEAL, size: 20, characterSpacing: 40 })] }),
@@ -166,12 +166,11 @@ function team() {
     H1("2. The Team: Members and Roles"),
     P("Each member led one part of the project, but everyone helped plan, build, test, and present the game."),
     table(["Role", "Member", "Responsibilities", "Main Outputs"], [
-      ["Game Designer", "[Member Name]", "Created the game concept, the shield and fragment mechanics, rules, scoring, and game flow", "Game flowchart, rules, mechanics"],
-      ["Story / Content Designer", "[Member Name]", "Wrote the backstory, characters, dialogue, questions, hints, and explanations", "Story slides, question bank"],
-      ["PowerPoint Developer", "[Member Name]", "Built the slides, hyperlinks, action buttons, slide masters, transitions, and sounds", "The playable game file (.pptx)"],
-      ["Tester / Documentation Lead", "[Member Name]", "Planned and ran playtests, recorded results, and put together this Word document", "Testing log, this documentation"],
-    ], [2100, 1900, 3460, 1900], { boldFirst: true }),
-    P("[Add a row for each additional group member.]", { run: { italics: true, color: GREY } }),
+      ["Game Designer", TEAM.roles[0].names, "Created the game concept, the shield and fragment mechanics, rules, scoring, and game flow", "Game flowchart, rules, mechanics"],
+      ["Story / Content Designers", TEAM.roles[1].names, "Wrote the backstory, characters, dialogue, questions, hints, and explanations", "Story slides, question bank"],
+      ["PowerPoint Developer", TEAM.roles[2].names, "Built the slides, hyperlinks, action buttons, slide masters, transitions, and sounds", "The playable game file (.pptx)"],
+      ["Tester / Documentation Lead", TEAM.roles[3].names, "Planned and ran playtests, recorded results, and put together this Word document", "Testing log, this documentation"],
+    ], [2000, 2200, 3360, 1800], { boldFirst: true }),
   ];
 }
 
@@ -469,15 +468,7 @@ function tools() {
       ["Evaluate", "Word", "Recorded playtest feedback, compared the game with the objectives, and wrote reflections."],
     ], [1500, 2700, 5160], { boldFirst: true }),
     H2("11.4 Work Plan"),
-    table(["Phase", "Tasks", "Lead", "Target Date"], [
-      ["1. Concept", "Choose the genre, theme, and title; write the game idea", "Game Designer", "[Date]"],
-      ["2. Story and Content", "Write the story, characters, 14 challenges, hints, and explanations", "Story / Content Designer", "[Date]"],
-      ["3. Design", "Plan the game flow, shield system, layouts, colors, and pixel art", "Game Designer", "[Date]"],
-      ["4. Development", "Build the slides, masters, hyperlinks, transitions, and sounds", "PowerPoint Developer", "[Date]"],
-      ["5. Testing", "Test every path, run playtests, and fix problems", "Tester / Documentation Lead", "[Date]"],
-      ["6. Documentation", "Finish this Word document, add screenshots, and write reflections", "Tester / Documentation Lead", "[Date]"],
-      ["7. Presentation", "Rehearse and present the game to the class", "Whole group", "[Date]"],
-    ], [2000, 4060, 2100, 1200], { boldFirst: true }),
+    table(["Phase", "Tasks", "Lead", "Date"], TEAM.workPlan, [1700, 3460, 2300, 1900], { boldFirst: true }),
   ];
 }
 
@@ -527,21 +518,12 @@ function testing() {
 }
 
 function reflection() {
-  const roles = ["Game Designer", "Story / Content Designer", "PowerPoint Developer", "Tester / Documentation Lead"];
   return [
     H1("13. Reflection"),
-    P("Each member answers these questions in 3 to 5 sentences:"),
-    ...bullets([
-      "What did you contribute to the game?",
-      "What was the hardest part, and how did you solve it?",
-      "What did you learn about using Word and PowerPoint as productivity tools?",
-    ]),
-    ...roles.flatMap((r) => [
-      H3(`[Member Name], ${r}`),
-      P("[Write your reflection here.]", { run: { italics: true, color: GREY } }),
-    ]),
+    P("Each member reflected on three questions: What did I contribute? What was the hardest part, and how did we solve it? What did I learn about using Word and PowerPoint as productivity tools?"),
+    ...TEAM.reflections.flatMap((r) => [H3(`${r.name}, ${r.role}`), P(r.text)]),
     H3("Group Reflection"),
-    P("[Write what your group learned from creating CTRL + ESCAPE together.]", { run: { italics: true, color: GREY } }),
+    P(TEAM.groupReflection),
   ];
 }
 
@@ -613,7 +595,7 @@ function appendix() {
   });
 
   const doc = new Document({
-    creator: "[Group Name]",
+    creator: `${TEAM.group}, ${TEAM.section}`,
     title: "CTRL + ESCAPE: The Glitch Within - Game Documentation",
     description: "Empowerment Technologies GameCraft performance task: game documentation",
     features: { updateFields: true },

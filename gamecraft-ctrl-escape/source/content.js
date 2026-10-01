@@ -183,4 +183,50 @@ const RANKS = {
   1: { stars: 1, title: "LUCKY ESCAPER", line: "You made it out... with just one shield left!" },
 };
 
-module.exports = { GAME, COLORS, SECTORS, CORE, TAUNTS, RANKS };
+
+const TEAM = {
+  group: "Group 5",
+  section: "12BE-15",
+  teacher: "Monette M. Bautista",
+  date: "October 2, 2026",
+  roles: [
+    { role: "Game Designer", names: ["Nathan Sean Dueñas"] },
+    { role: "Story / Content Designer", names: ["Denzel Red Bernardo", "Mykoh Ashton Lapeña"] },
+    { role: "PowerPoint Developer", names: ["Inigo Abrahano"] },
+    { role: "Tester / Documentation Lead", names: ["Prince Angelo Barcelona"] },
+  ],
+  workPlan: [
+    ["1. Concept", "Choose the genre, theme, and title; write the game idea", "Nathan Sean Dueñas", "September 21, 2026"],
+    ["2. Story and Content", "Write the story, characters, 14 challenges, hints, and explanations", "Denzel Red Bernardo, Mykoh Ashton Lapeña", "September 22–23, 2026"],
+    ["3. Design", "Plan the game flow, shield system, layouts, colors, and pixel art", "Nathan Sean Dueñas", "September 24–25, 2026"],
+    ["4. Development", "Build the slides, masters, hyperlinks, transitions, and sounds", "Inigo Abrahano", "September 26–28, 2026"],
+    ["5. Testing", "Test every path, run playtests, and fix problems", "Prince Angelo Barcelona", "September 29, 2026"],
+    ["6. Documentation", "Finish this Word document, add screenshots, and write reflections", "Prince Angelo Barcelona", "September 30–October 1, 2026"],
+    ["7. Presentation", "Present the game to the class", "Whole group", "October 2, 2026"],
+  ],
+  reflections: [
+    {
+      name: "Nathan Sean Dueñas", role: "Game Designer",
+      text: "I came up with the main idea of being trapped inside a computer and planned how the game works: the three shields, the Code Fragments, and the final code lock. The hardest part was figuring out how to keep track of shields, because PowerPoint cannot count lives without macros. We solved it by making a copy of every question for each number of shields, and drawing the flowchart first showed us exactly where every button had to go. I learned that planning the whole game on paper and in Word before building anything saves a lot of time and mistakes.",
+    },
+    {
+      name: "Denzel Red Bernardo", role: "Story / Content Designer",
+      text: "I helped write the story of Kai, BYTE, and NULL, including the dialogue on the story slides and the sector briefings. It was hard to keep each part short enough to fit on a slide while still making it exciting. We read the lines out loud as a group and cut anything that did not move the story forward. I learned that a good story makes players care about answering the questions, and that organizing our dialogue in Word tables made it easy for everyone to review and edit.",
+    },
+    {
+      name: "Mykoh Ashton Lapeña", role: "Story / Content Designer",
+      text: "I wrote and checked the questions, hints, and explanations for all four sectors and NULL's Core. Our first set of questions was all about ICT, but we realized it would be too hard for players who are not into computers, so we changed everything to general knowledge that anyone can answer. The trickiest part was writing hints that help without giving away the answer, and making sure every fact was correct. I learned how important it is to think about who will play your game, and how a question bank in Word keeps the answers and explanations organized in one place.",
+    },
+    {
+      name: "Inigo Abrahano", role: "PowerPoint Developer",
+      text: "I built the game in PowerPoint, including the slide masters, buttons, hyperlinks, transitions, and sound effects. The hardest part was setting up more than 500 hyperlinks so that every button goes to the right slide, because a single wrong link can break the whole game. Grouping the slides into sections and labeling each one in the speaker notes made it much easier to find and fix problems. I learned that PowerPoint can do much more than presentations: with hyperlinks and action settings, it can become a real game.",
+    },
+    {
+      name: "Prince Angelo Barcelona", role: "Tester / Documentation Lead",
+      text: "My job was to test the game and put together this documentation. I played through different paths, like winning with different numbers of shields and losing on purpose to reach Game Over, and listed every problem so the team could fix it. Keeping this long document organized was a challenge, so I used styles, tables, captions, and a table of contents. I learned that testing is just as important as building, because players notice even the smallest mistake.",
+    },
+  ],
+  groupReflection: "Making CTRL + ESCAPE showed us that creating a game takes much more than a good idea. We had to plan, write, design, build, test, and document, and every step depended on the one before it. Dividing the work by role helped us finish on time, but we still helped each other at every stage, especially when we changed our questions and during testing. Most of all, we learned that Microsoft Word and PowerPoint are powerful productivity tools: Word helped us plan and stay organized, and PowerPoint let us turn that plan into a game people can actually play.",
+};
+
+module.exports = { GAME, COLORS, SECTORS, CORE, TAUNTS, RANKS, TEAM };

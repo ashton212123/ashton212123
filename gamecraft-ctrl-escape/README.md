@@ -15,12 +15,20 @@ Keep both files in the **same folder**. The game's Credits slide opens the Word 
 2. Use the **mouse only**. Click the on-slide buttons, not the arrow keys.
 3. You have 3 shields. A wrong answer breaks one. Clear 4 sectors, write down the 4 Code Fragments, then beat NULL and unlock the ESC Gate.
 
+## Team
+
+**Group 5, 12BE-15** | Subject teacher: Monette M. Bautista | Submitted October 2, 2026
+
+| Role | Member |
+|---|---|
+| Game Designer | Nathan Sean Dueñas |
+| Story / Content Designers | Denzel Red Bernardo, Mykoh Ashton Lapeña |
+| PowerPoint Developer | Inigo Abrahano |
+| Tester / Documentation Lead | Prince Angelo Barcelona |
+
 ## Before you submit
 
-Replace the placeholders in square brackets:
-
-- **Word:** cover page (group name, members, section, teacher, date), Section 2 (team table), Section 11.4 (dates), Section 12 (playtest checklist and record), Section 13 (reflections).
-- **PowerPoint:** slide 3 (Credits): group name, section, and member names.
+- Play the game in PowerPoint and fill in the **playtest checklist and playtest record** (Word, Section 12.2 and 12.3).
 - When Word asks to **update fields** on opening, click **Yes** so the table of contents fills in.
 
 ## What's inside the game

@@ -1,0 +1,20 @@
+{
+  "name": "ctrl-escape-build",
+  "private": true,
+  "description": "Rebuilds the CTRL + ESCAPE PowerPoint game and its Word documentation",
+  "scripts": {
+    "assets": "python3 sprites.py && python3 backgrounds.py && node diagrams.js",
+    "game": "node build_pptx.js",
+    "verify": "python3 verify_links.py out/CTRL-ESCAPE_Game.pptx out/slide_map.json",
+    "docs": "node build_docx.js"
+  },
+  "dependencies": {
+    "docx": "^9.7.1",
+    "jszip": "^3.10.1",
+    "pptxgenjs": "^4.0.1",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "react-icons": "^5.7.0",
+    "sharp": "^0.35.5"
+  }
+}

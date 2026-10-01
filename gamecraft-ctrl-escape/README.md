@@ -19,14 +19,15 @@ Keep both files in the **same folder**. The game's Credits slide opens the Word 
 
 Replace the placeholders in square brackets:
 
-- **Word:** cover page (group name, members, section, teacher, date), Section 2 (team table), Section 11.4 (dates), Section 12 (playtest checklist and record), Section 13 (reflections), Section 14 (your class textbook or module).
+- **Word:** cover page (group name, members, section, teacher, date), Section 2 (team table), Section 11.4 (dates), Section 12 (playtest checklist and record), Section 13 (reflections).
 - **PowerPoint:** slide 3 (Credits): group name, section, and member names.
 - When Word asks to **update fields** on opening, click **Yes** so the table of contents fills in.
 
 ## What's inside the game
 
-- 133 slides and 560 hyperlinks, with no macros
-- 4 sectors + NULL's Core, 14 challenges, 5 challenge types
+- 133 slides and 548 hyperlinks, with no macros
+- 4 general-knowledge sectors (Science, Philippine History, Everyday Life, Geography) + NULL's Core
+- 14 challenges in 5 types: multiple choice, Fact or Myth, receipt puzzle, door maze, code lock
 - Shields (lives) tracked with slide copies; Code Fragments; a reverse-code final lock
 - Original pixel art and 8-bit sound effects
 

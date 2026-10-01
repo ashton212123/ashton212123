@@ -14,10 +14,11 @@ const OUT = process.argv[2] || path.join(__dirname, "out", GAME.pptFile);
 const HEAD = "Arial Black", BODY = "Calibri", MONO = "Courier New";
 const LETTERS = ["A", "B", "C", "D"];
 const ALL = [...SECTORS, CORE];
-const MAP_LABELS = ["WEB", "FIREWALL", "ARCHIVES", "SEARCH", "CORE"];
+const MAP_LABELS = ["SCIENCE", "HISTORY", "FUN ZONE", "WORLD", "CORE"];
 
 // ---------------------------------------------------------------- registry
 const REG = [];
+const STATS = {};
 const def = (key, section, master, meta, build) => REG.push({ key, section, master, ...meta, build });
 let NUM = {};
 const num = (key) => {
@@ -39,10 +40,10 @@ async function preloadIcons() {
     ...ALL.map((s) => [s.icon, s.accent]),
     ["FaCheck", C.mint], ["FaCheck", C.bg], ["FaLock", C.locked], ["FaLock", C.amber],
     ["FaExclamationTriangle", C.magenta], ["FaLightbulb", C.amber], ["FaStar", C.amber], ["FaStar", C.line],
-    ["FaEnvelope", C.cyan], ["FaUnlockAlt", C.mint], ["FaMousePointer", "FFFFFF"],
+    ["FaUnlockAlt", C.mint], ["FaMousePointer", "FFFFFF"],
     ["FaFlag", C.cyan], ["FaMousePointer", C.cyan], ["FaQuestion", C.cyan], ["FaKey", C.cyan],
     ["FaPuzzlePiece", "2DE2E6"], ["FaBookOpen", "FF7A45"], ["FaLaptopCode", "A98BFF"], ["FaClipboardCheck", "9BE564"],
-    ["FaBan", C.magenta], ["FaKey", C.amber], ["FaSearch", "9BE564"], ["FaCheckCircle", C.mint],
+    ["FaBan", C.magenta], ["FaSearch", "9BE564"], ["FaCheckCircle", C.mint],
   ];
   for (const [n, col] of want) ICONS[`${n}_${col}`] = await pixelIcon(n, col);
 }
@@ -301,8 +302,8 @@ function defineSlides() {
     txt(s, "Kai blinks and wakes up at the desk. The game file is saved, the virus is gone, and a sticky note on the monitor says: THINK BEFORE YOU CLICK.", { x: 0.5, y: 1.65, w: 7.2, h: 1.2, fontSize: 18 });
     const tips = [
       ["FaBan", C.magenta, "Never click 'You won!' pop-ups", "Close them safely and scan your device."],
-      ["FaKey", C.amber, "Guard your passwords", "Use strong passwords and learn to spot phishing."],
-      ["FaSearch", "9BE564", "Search smart, credit your sources", "Use reliable websites and respect creators' work."],
+      ["FaLightbulb", C.amber, "Stay curious", "There is always something new to learn about the world."],
+      ["FaSearch", "9BE564", "Check facts before you share", "Not everything you read online is true. Look it up!"],
     ];
     tips.forEach(([icon, col, head, sub], i) => {
       const y = 3.1 + i * 1.12;
@@ -336,7 +337,7 @@ function defIntro(sec, si, L, section) {
     iconCircle(s, 0.6, 1.2, 2.0, ic(sec.icon, sec.accent), sec.accent, { lw: 3, pad: 0.22 });
     txt(s, isCore ? "FINAL SECTOR" : `SECTOR ${sec.num}`, { x: 3.0, y: 1.22, w: 6, h: 0.4, fontFace: MONO, fontSize: 16, bold: true, color: sec.accent });
     txt(s, sec.name, { x: 3.0, y: 1.6, w: 9.83, h: 0.85, fontFace: HEAD, fontSize: 36 });
-    txt(s, `E-Tech topic: ${sec.topic}`, { x: 3.0, y: 2.48, w: 9.83, h: 0.4, fontSize: 16, color: C.muted });
+    txt(s, `Topic: ${sec.topic}`, { x: 3.0, y: 2.48, w: 9.83, h: 0.4, fontSize: 16, color: C.muted });
     img(s, A(isCore ? "null.png" : "byte.png"), isCore ? 0.6 : 0.95, isCore ? 3.55 : 3.3, isCore ? 2.0 : 1.25, isCore ? 1.9 : 1.95);
     dialog(s, { x: 3.0, y: 3.3, w: 9.83, h: 1.75, tag: "BYTE", tagColor: C.cyan, text: sec.intro, size: 16 });
     txt(s, "MISSION MAP", { x: 0.6, y: 5.35, w: 3, h: 0.3, fontFace: MONO, fontSize: 10, bold: true, color: C.muted });
@@ -378,22 +379,17 @@ function defQuestion(q, L, section) {
     if (q.type === "mc") {
       const size = Math.max(...q.options.map((o) => o.length)) > 36 ? 16 : 18;
       q.options.forEach((_, i) => ans(i, 0.5 + (i % 2) * 6.33, 3.8 + Math.floor(i / 2) * 1.55, 6.0, 1.35, { size }));
-    } else if (q.type === "phish") {
-      const e = q.email;
+    } else if (q.type === "tf") {
       panel(s, 0.5, 3.75, 7.75, 3.05, { fill: "0E1433", line: C.line, transp: 0 });
-      img(s, ic("FaEnvelope", C.cyan), 0.75, 3.92, 0.42, 0.42);
-      txt(s, "INBOX  (1 new message)", { x: 1.3, y: 3.92, w: 5, h: 0.42, fontFace: MONO, fontSize: 12, bold: true, color: C.cyan, valign: "middle" });
+      img(s, ic("FaLightbulb", C.amber), 0.75, 3.92, 0.42, 0.42);
+      txt(s, "FACT OR MYTH?", { x: 1.3, y: 3.92, w: 5, h: 0.42, fontFace: MONO, fontSize: 13, bold: true, color: C.amber, valign: "middle" });
       s.addShape(pres.shapes.LINE, { x: 0.75, y: 4.48, w: 7.25, h: 0, line: { color: C.line, width: 1 } });
-      txt(s, [
-        { text: "From: ", options: { bold: true, color: C.muted } }, { text: e.from, options: { fontFace: MONO, color: "FF8FA3", breakLine: true } },
-        { text: "Subject: ", options: { bold: true, color: C.muted } }, { text: e.subject, options: { bold: true } },
-      ], { x: 0.75, y: 4.58, w: 7.3, h: 0.75, fontSize: 14, paraSpaceAfter: 2 });
-      txt(s, e.body, { x: 0.75, y: 5.4, w: 7.3, h: 0.8, fontSize: 14, color: "C9D2F2" });
-      txt(s, e.link, { x: 0.75, y: 6.2, w: 7.3, h: 0.4, fontFace: MONO, fontSize: 13, color: C.cyan, underline: { style: "sng" } });
+      txt(s, `"${q.claim}"`, { x: 0.8, y: 4.6, w: 7.15, h: 1.65, fontSize: 26, bold: true, valign: "middle" });
+      txt(s, `FILE: ${q.file}  //  STATUS: UNVERIFIED`, { x: 0.8, y: 6.3, w: 7.15, h: 0.35, fontFace: MONO, fontSize: 11, color: C.muted, valign: "middle" });
       q.options.forEach((opt, i) => ans(i, 8.55, 3.75 + i * 1.6, 4.28, 1.45, {
         runs: [{ text: opt, options: { fontFace: HEAD, fontSize: 22, breakLine: true } }, { text: q.sub[i], options: { fontFace: BODY, fontSize: 15, color: C.muted } }],
       }));
-    } else if (q.type === "excel") {
+    } else if (q.type === "table") {
       const rows = [[{ text: "", options: { fill: { color: "2A3366" } } }, ...["A", "B"].map((c) => ({ text: c, options: { bold: true, align: "center", fill: { color: "2A3366" }, color: C.muted } }))]];
       q.sheet.forEach((r, i) => {
         const last = i === q.sheet.length - 1, head = i === 0;
@@ -411,7 +407,8 @@ function defQuestion(q, L, section) {
     } else if (q.type === "doors") {
       q.options.forEach((opt, i) => {
         const x = 0.5 + i * 3.143;
-        ans(i, x, 3.75, 2.9, 3.0, { font: MONO, bold: true, size: 13, align: "center", valign: "bottom", margin: [8, 8, 16, 4], badge: 0.5, bx: x + 0.18, by: 3.9 });
+        const doorSize = Math.max(...q.options.map((o) => o.length)) > 14 ? 13 : 20;
+        ans(i, x, 3.75, 2.9, 3.0, { font: MONO, bold: true, size: doorSize, align: "center", valign: "bottom", margin: [8, 8, 16, 4], badge: 0.5, bx: x + 0.18, by: 3.9 });
         img(s, A("door.png"), x + 0.86, 3.95, 1.18, 1.4, { objectName: link(targets[i], `Door ${LETTERS[i]}`) });
       });
     } else if (q.type === "lock") {
@@ -555,6 +552,7 @@ async function finalize(buf) {
   }
   for (const f of Object.keys(rename)) ct = ct.replace(new RegExp(`<Override PartName="/ppt/media/${f.replace(/\./g, "\\.")}"[^>]*/>`), "");
   zip.file("[Content_Types].xml", ct);
+  STATS.links = linkCount;
   console.log(`links: ${linkCount}, media files removed as duplicates: ${Object.keys(rename).length}`);
   return zip.generateAsync({ type: "nodebuffer", compression: "DEFLATE", compressionOptions: { level: 9 } });
 }
@@ -583,9 +581,10 @@ async function finalize(buf) {
   });
 
   const buf = await pres.write({ outputType: "nodebuffer" });
-  const out = await finalize(buf);
+  const out = process.env.RAW ? buf : await finalize(buf);
   fs.mkdirSync(path.dirname(OUT), { recursive: true });
   fs.writeFileSync(OUT, out);
   fs.writeFileSync(path.join(path.dirname(OUT), "slide_map.json"), JSON.stringify(REG.map((r, i) => ({ n: i + 1, key: r.key, section: r.section })), null, 1));
+  fs.writeFileSync(path.join(path.dirname(OUT), "stats.json"), JSON.stringify({ slides: REG.length, links: STATS.links }));
   console.log(`wrote ${OUT} with ${REG.length} slides (${(out.length / 1024).toFixed(0)} KB)`);
 })().catch((e) => { console.error(e); process.exit(1); });

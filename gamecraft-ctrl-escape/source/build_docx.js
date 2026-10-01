@@ -13,6 +13,7 @@ const { GAME, SECTORS, CORE, RANKS } = require("./content");
 const A = (f) => path.join(__dirname, "assets", f);
 const OUT = process.argv[2] || path.join(__dirname, "out", GAME.docFile);
 const SLIDE_MAP = JSON.parse(fs.readFileSync(process.argv[3] || path.join(__dirname, "out", "slide_map.json")));
+const STATS = JSON.parse(fs.readFileSync(path.join(__dirname, "out", "stats.json")));
 
 const NAVY = "1A2353", INK = "1F2433", TEAL = "0B7C85", MAG = "C2185B", GREY = "5B6382", ROW = "F3F6FF", LINE = "C9D2EE";
 const CW = 9360; // content width (DXA) for US Letter with 1" margins
@@ -130,7 +131,7 @@ function tocPage() {
 function overview() {
   return [
     H1("1. Game Overview"),
-    P("**CTRL + ESCAPE: The Glitch Within** is an original escape-room adventure built entirely in Microsoft PowerPoint. The player becomes **Kai**, a Senior High School student who gets pulled inside an infected computer after clicking a fake \"You won a FREE phone!\" pop-up. To escape, Kai must cross four computer sectors, answer Empowerment Technologies challenges, protect three shields, and collect four Code Fragments that unlock the ESC Gate guarded by a virus named **NULL**."),
+    P("**CTRL + ESCAPE: The Glitch Within** is an original escape-room adventure built entirely in Microsoft PowerPoint. The player becomes **Kai**, a Senior High School student who gets pulled inside an infected computer after clicking a fake \"You won a FREE phone!\" pop-up. To escape, Kai must cross four computer sectors, answer general-knowledge challenges about science, history, everyday life, and geography, protect three shields, and collect four Code Fragments that unlock the ESC Gate guarded by a virus named **NULL**."),
     new Paragraph({
       spacing: { before: 40, after: 160 },
       children: [new TextRun({ text: "Play the game: ", bold: true }), new ExternalHyperlink({ link: GAME.pptFile, children: [new TextRun({ text: GAME.pptFile, style: "Hyperlink" })] }), new TextRun({ text: "  (keep this document and the game in the same folder)", color: GREY })],
@@ -140,10 +141,10 @@ function overview() {
       ["Genre", "Escape Room + Story-Based Adventure + Quiz (Digital Escape Challenge)"],
       ["Platform", "Microsoft PowerPoint in Slide Show mode (Windows or Mac). Saved as a normal .pptx, so no macros are needed."],
       ["Players", "1 player, or a small group deciding answers together"],
-      ["Target Audience", "Senior High School students taking Empowerment Technologies, and anyone learning to use computers safely"],
+      ["Target Audience", "Senior High School students and anyone who enjoys trivia. No special knowledge is needed: the questions cover things most people learn in school and everyday life."],
       ["Playing Time", "About 10 to 15 minutes per run"],
-      ["Learning Content", "ICT and the Web; online safety, security, and netiquette; productivity tools; online search, research, and intellectual property"],
-      ["Game Size", "133 slides, 560 hyperlinks, 5 game areas, 14 challenges, 3 endings (win with 1, 2, or 3 stars) plus Game Over"],
+      ["Game Content", "General knowledge: science and nature, Philippine history, everyday life (food, sports, and money), and geography"],
+      ["Game Size", `${STATS.slides} slides, ${STATS.links} hyperlinks, 5 game areas, 14 challenges, 3 endings (win with 1, 2, or 3 stars) plus Game Over`],
       ["Project Files", `${GAME.pptFile} (the playable game) and ${GAME.docFile} (this document)`],
     ], [2400, 6960], { boldFirst: true }),
     H2("1.1 Objective of the Game"),
@@ -190,23 +191,23 @@ function story() {
       [sprite("null.png"), ["**NULL**", "The Villain"], "A glitchy virus that got in through the fake pop-up. NULL taunts the player after wrong answers, asks the final question, and scrambles the ESC Gate code."],
     ], [1500, 1700, 6160], { zebra: false, fills: [[NAVY], [NAVY], [NAVY]] }),
     H2("3.3 Setting"),
-    P("The game takes place inside Kai's computer, shown as a glowing digital world with a neon grid floor. Each area has its own color so players always know where they are: cyan for the Web Gateway, orange for the Firewall Fortress, violet for the Office Archives, green for the Search Maze, and magenta for NULL's Core."),
+    P("The game takes place inside Kai's computer, shown as a glowing digital world with a neon grid floor. Each area has its own color so players always know where they are: cyan for the Science Lab, orange for the Time Vault, violet for the Fun Zone, green for the World Map, and magenta for NULL's Core."),
     ...figure(A("doc/shots/story1.jpg"), 5.6, "Story slide 1 showing Kai and the fake pop-up", "Story slide 1: Kai clicks the fake \"You won a FREE phone!\" pop-up."),
   ];
 }
 
 function world() {
   const rows = [
-    ["Sector 1: The Web Gateway", "ICT and the World Wide Web (Web 1.0, 2.0, 3.0; ICT trends; Web 2.0 features)", "3 multiple-choice questions", "Code Fragment 3"],
-    ["Sector 2: The Firewall Fortress", "Online safety, security, and netiquette", "Legit-or-Phishing email check, password strength, malware type", "Code Fragment 8"],
-    ["Sector 3: The Office Archives", "Productivity tools (Word, Excel, PowerPoint)", "Mail Merge, Excel formula puzzle, PowerPoint hyperlinks", "Code Fragment 1"],
-    ["Sector 4: The Search Maze", "Online search, research, and intellectual property", "Choose-a-door search puzzle, reliable sources, copyright", "Code Fragment 6"],
+    ["Sector 1: The Science Lab", "Science and Nature", "2 multiple-choice questions + 1 Fact or Myth", "Code Fragment 3"],
+    ["Sector 2: The Time Vault", "Philippine History", "2 multiple-choice questions + 1 Fact or Myth", "Code Fragment 8"],
+    ["Sector 3: The Fun Zone", "Everyday Life: Food, Sports, and Money", "2 multiple-choice questions + 1 sari-sari store receipt puzzle", "Code Fragment 1"],
+    ["Sector 4: The World Map", "Geography of the Philippines and the World", "1 choose-a-door puzzle + 2 multiple-choice questions", "Code Fragment 6"],
     ["NULL's Core", "Final challenge: think before you click", "Boss question + 4-digit ESC Gate code lock", "Escape + star rank"],
   ];
   return [
     H1("4. Game World: The Five Areas"),
-    P("The adventure is divided into four sectors and a final area. Each one covers a different Empowerment Technologies topic and ends with a reward."),
-    table(["Area", "E-Tech Topic", "Challenges", "Reward"], rows, [2300, 2900, 2560, 1600], { boldFirst: true }),
+    P("The adventure is divided into four sectors and a final area. Each one covers a different general-knowledge topic and ends with a reward. The questions were chosen so that any student can play, not just ICT experts."),
+    table(["Area", "Topic", "Challenges", "Reward"], rows, [2300, 2900, 2560, 1600], { boldFirst: true }),
     ...figure(A("doc/shots/intro_s1_3.jpg"), 5.6, "Sector 1 entrance slide", "A sector entrance. BYTE gives a briefing and the mission map shows progress."),
   ];
 }
@@ -229,9 +230,9 @@ function mechanics() {
     H2("5.4 Challenge Types"),
     table(["Type", "How It Works", "Where"], [
       ["Multiple Choice", "Four answer buttons (A to D). Click the best answer.", "All areas"],
-      ["Legit or Phishing?", "Inspect a suspicious email, then decide if it is LEGIT or PHISHING.", "Sector 2"],
-      ["Spreadsheet Puzzle", "Read a mini Excel sheet and pick the formula that opens the vault.", "Sector 3"],
-      ["Door Maze", "Four doors, each labeled with a search query. Open the one that leads the right way.", "Sector 4"],
+      ["Fact or Myth?", "Read a statement from a corrupted file, then decide if it is a FACT or a MYTH.", "Sectors 1 and 2"],
+      ["Receipt Puzzle", "Read a sari-sari store receipt and work out the total.", "Sector 3"],
+      ["Door Maze", "Four doors, each labeled with a city. Open the one that leads the right way.", "Sector 4"],
       ["Code Lock", "Pick the correct 4-digit code made from the collected fragments.", "NULL's Core"],
     ], [2300, 5260, 1800], { boldFirst: true }),
     H2("5.5 Feedback and Hints"),
@@ -358,7 +359,8 @@ function questionBank() {
     const rows = sec.questions.map((q) => {
       n++;
       const qText = [`**${q.q}**`];
-      if (q.email) qText.push(`(Email from ${q.email.from}: "${q.email.subject}")`);
+      if (q.claim) qText.push(`Statement: "${q.claim}"`);
+      if (q.sheet) qText.push(`Receipt: ${q.sheet.slice(1, -1).map((r) => `${r[0]} ${r[1]}`).join(", ")}`);
       q.options.forEach((o, i) => qText.push(`${LETTERS[i]}. ${o}`));
       return [String(n), qText, `**${LETTERS[q.answer]}.** ${q.options[q.answer]}`, [`**Why:** ${q.explain}`, `**Hint:** ${q.hint}`]];
     });
@@ -372,13 +374,13 @@ function design() {
   const swatches = [
     ["0A0F24", "Deep Navy", "Background of every slide"],
     ["1A2353", "Panel Blue", "Buttons, panels, and dialog boxes"],
-    ["2DE2E6", "Cyber Cyan", "BYTE, Sector 1, and main buttons"],
+    ["2DE2E6", "Cyber Cyan", "BYTE, Sector 1: The Science Lab, and main buttons"],
     ["F72585", "Glitch Magenta", "NULL, wrong answers, and NULL's Core"],
     ["4BF0A0", "Access Mint", "Correct answers and victory"],
     ["FFC233", "Fragment Amber", "Code Fragments, hints, and stars"],
-    ["FF7A45", "Firewall Orange", "Sector 2"],
-    ["A98BFF", "Archive Violet", "Sector 3"],
-    ["9BE564", "Maze Lime", "Sector 4"],
+    ["FF7A45", "Vault Orange", "Sector 2: The Time Vault"],
+    ["A98BFF", "Fun Zone Violet", "Sector 3: The Fun Zone"],
+    ["9BE564", "Map Lime", "Sector 4: The World Map"],
   ];
   const sw = (hex) => new TableCell({ width: { size: 900, type: WidthType.DXA }, shading: { fill: hex, type: ShadingType.CLEAR, color: "auto" }, children: [new Paragraph("")], margins: { top: 80, bottom: 80, left: 120, right: 120 } });
   const palette = new Table({
@@ -411,7 +413,7 @@ function design() {
     table(["Font", "Used For", "Why"], [
       ["Arial Black", "Titles and buttons", "Thick, bold letters that read like a game logo"],
       ["Calibri", "Questions, story text, and explanations", "Clean and easy to read on a screen"],
-      ["Courier New", "Top bar, labels, formulas, search queries, and codes", "Looks like computer code and fits the \"inside the computer\" theme"],
+      ["Courier New", "Top bar, labels, receipts, door signs, and codes", "Looks like computer code and fits the \"inside the computer\" theme"],
     ], [2000, 3500, 3860], { boldFirst: true }),
     H2("10.4 Sound Effects"),
     P("All sounds are original 8-bit square-wave tones made for this project. They are attached to the slides as transition sounds, so they play automatically."),
@@ -436,7 +438,7 @@ function tools() {
     P("This project used Microsoft Word and Microsoft PowerPoint for different jobs: Word to plan, organize, and document the game, and PowerPoint to build the playable game itself."),
     H2("11.1 Microsoft PowerPoint Features"),
     table(["Feature", "How We Used It in the Game"], [
-      ["Hyperlinks and Action Settings (Insert > Action > Hyperlink to: Slide)", "560 links connect every answer, button, and door to the correct slide."],
+      ["Hyperlinks and Action Settings (Insert > Action > Hyperlink to: Slide)", `${STATS.links} links connect every answer, button, and door to the correct slide.`],
       ["\"Last Slide Viewed\" action", "The BACK button on How to Play returns players to whatever slide they came from."],
       ["\"End Show\" action", "The EXIT GAME buttons close the slide show."],
       ["Hyperlink to another file", "The Credits slide opens this Word document."],
@@ -444,7 +446,7 @@ function tools() {
       ["Sections", "Slides are grouped into sections (Main Menu, Story, Sector 1, and so on) for easy editing in Slide Sorter."],
       ["Transitions with sound", "Every slide fades in; feedback, victory, and game-over slides play sound effects."],
       ["Turning off \"On Mouse Click\" (Transitions > Advance Slide)", "Clicking an empty part of a slide never skips a question."],
-      ["Shapes, Pictures, and Tables", "Buttons, dialog boxes, the inbox mock-up, the Excel mini-sheet, and pixel-art characters."],
+      ["Shapes, Pictures, and Tables", "Buttons, dialog boxes, the Fact or Myth cards, the receipt table, and pixel-art characters."],
       ["Speaker Notes", "Each slide's notes describe its purpose, shield level, and correct answer for the developer and teacher."],
     ], [3500, 5860], { boldFirst: true }),
     H2("11.2 Microsoft Word Features"),
@@ -486,8 +488,8 @@ function testing() {
     H2("12.1 Technical Checks"),
     P("These checks were completed by scanning every slide and link in the game file."),
     table(["What Was Checked", "Result"], [
-      ["Every hyperlink leads to a slide that exists (560 links)", "Passed"],
-      ["Every slide can be reached from the title screen (133 of 133)", "Passed"],
+      [`Every hyperlink leads to a slide that exists (${STATS.links} links)`, "Passed"],
+      [`Every slide can be reached from the title screen (${STATS.slides} of ${STATS.slides})`, "Passed"],
       ["Each of the 42 question slides has exactly one correct answer; the other answers remove one shield", "Passed"],
       ["TRY AGAIN keeps the lower shield count; CONTINUE keeps the current count", "Passed"],
       ["A wrong answer on the last shield leads to Game Over", "Passed"],
@@ -512,14 +514,14 @@ function testing() {
     table(["Learning Objective", "How Our Project Meets It"], [
       ["Apply appropriate features of MS Word and MS PowerPoint in creating a digital product", "PowerPoint: hyperlinks, actions, slide masters, sections, transitions, and sounds. Word: styles, a table of contents, captions, tables, and headers and footers (Section 11)."],
       ["Design an original game with clear objectives, mechanics, rules, and instructions", "An original story and characters, a clear objective (Section 1), mechanics (Section 5), rules (Section 6), and instructions (Section 7)."],
-      ["Use PowerPoint's interactive features to create a playable digital game", "A fully playable game with 560 links, five challenge types, shields, fragments, a code lock, and three victory ranks."],
+      ["Use PowerPoint's interactive features to create a playable digital game", `A fully playable game with ${STATS.links} links, five challenge types, shields, fragments, a code lock, and three victory ranks.`],
       ["Demonstrate creativity, collaboration, problem-solving, and digital productivity skills", "Creativity: pixel art, story, and the reverse-code twist. Collaboration: clear roles. Problem-solving: tracking shields without macros. Productivity: planning, testing, and documenting with Office tools."],
     ], [3600, 5760], { boldFirst: true }),
     H2("12.5 Known Limitations and Future Improvements"),
     ...bullets([
       "Keyboard keys (arrows, space bar) can still change slides in normal Slide Show mode. Players should use the mouse, or the teacher can use kiosk mode (see the tip in Section 7).",
       "Because shields are tracked with slide copies, adding one new question means adding 8 new slides.",
-      "Future ideas: a timer challenge, a new sector about image editing and online platforms, shuffled questions for replay value, and a two-player mode.",
+      "Future ideas: a timer challenge, new sectors about music, movies, and animals, shuffled questions for replay value, and a two-player mode.",
     ]),
   ];
 }
@@ -547,11 +549,10 @@ function references() {
   return [
     H1("14. References and Credits"),
     ...bullets([
-      "**Lesson content:** based on the Empowerment Technologies topics in the DepEd K to 12 Senior High School curriculum: ICT and the World Wide Web, online safety, security, and netiquette, productivity tools, and contextualized online search and research.",
-      "[Add the textbook or learning module your class uses.]",
+      "**Game content:** common general knowledge in science, Philippine history, everyday life, and geography. Every fact used in the questions can be checked in an encyclopedia or a school textbook.",
       "**Software:** Microsoft PowerPoint (game) and Microsoft Word (documentation).",
       "**Original assets:** the story, characters, questions, pixel art, and sound effects are original to this project. No copyrighted images or music were used.",
-      "**Fictional examples:** the \"sch00l-portal-login.net\" email and the \"You WON a FREE PHONE\" pop-up in the game are made-up examples created to teach phishing awareness.",
+      "**Fictional examples:** the \"You WON a FREE PHONE\" pop-up, the sari-sari store receipt, and all characters in the game are made up for this story.",
     ]),
   ];
 }
@@ -562,8 +563,8 @@ function appendix() {
     ["credits", "Credits screen with the link to this document."],
     ["story2", "Story slide 2: NULL appears."],
     ["story3", "Story slide 3: BYTE explains the mission."],
-    ["q_s2q1_3", "Sector 2: Legit or Phishing?"],
-    ["q_s3q2_3", "Sector 3: the spreadsheet puzzle."],
+    ["q_s1q2_3", "Sector 1: Fact or Myth?"],
+    ["q_s3q2_3", "Sector 3: the sari-sari store receipt puzzle."],
     ["q_s4q1_3", "Sector 4: the door maze."],
     ["q_boss_3", "NULL's Core: the final question."],
     ["q_lock_3", "The ESC Gate code lock."],
